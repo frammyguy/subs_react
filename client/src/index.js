@@ -5,8 +5,7 @@ import './index.sass';
 import Header from './components/header/header';
 import Browse from './components/browse/browse';
 import Library from './components/library/library';
-import Add from './components/library/add';
-import Update from './components/library/update';
+import ModifyLibrary from './components/library/ModifyLibrary';
 import Login from './components/login/login';
 import Register from './components/login/register';
 
@@ -20,8 +19,8 @@ root.render(
       <Routes>
         <Route path="/" element={<Browse/>} />
         <Route path="/library" element={<Library/>} />
-        <Route path="/add" element={<Add/>} />
-        <Route path="/update/:id" element={<Update/>} />
+        <Route path="/add" element={<ModifyLibrary formAction='add'/>} />
+        <Route path="/update/:id" element={<ModifyLibrary formAction='update'/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
       </Routes>

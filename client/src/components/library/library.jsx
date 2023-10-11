@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
@@ -6,23 +6,26 @@ import "./library.sass";
 
 export default function Library() {
   const [list, setList] = React.useState([]);
+  const fetchAllSubs = async () => {
+    try {
+      const res = await axios.get("http://localhost:8800/library");
+      setList(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  React.useEffect(() => {
-    const fetchAllSubs = async () => {
-      try {
-        const res = await axios.get("http://localhost:8800/library");
-        setList(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  useEffect(() => {
     fetchAllSubs();
-  }, []);
+  }, [fetchAllSubs]);
 
+  //dom manipulations in react are not good practice
+  //need to use references and events to change the classnames and attributes
   function blurElement(props) {
     props = props.currentTarget;
     const hidden = props.parentElement.children[0].hidden === "hidden";
-    var elems = Array.from(document.getElementsByClassName("list_sub"));
+    //za var otrezhu pisku, uzaj const kak mozhno chawe
+    let elems = Array.from(document.getElementsByClassName("list_sub"));
     elems.forEach((element) => {
       element.id = "";
       if (!element.classList.contains("list_add")) {
@@ -61,34 +64,35 @@ export default function Library() {
       );
   }
 
-  function showSubs() {
-    if (list.length !== 0) {
-      return React.Children.toArray(
-        list[0].map((e) => (
-          <div className="list_btn">
-            <div className="list_btn_box" hidden="hidden">
-              <Button
-                variant="danger"
-                onClick={() => handleDelete(e.ID)}
-                className="activeButtons"
-              >
-                Delete
-              </Button>{" "}
-              <Link to={`/update/${e.ID}`} className="activeButtons">
-                <Button variant="warning" className="btn btn-warning">
-                  Update
-                </Button>
-              </Link>
-            </div>
-            {list[1].map((arr) => {
-              if (arr.Name === e.Service)
-                return notEmpty(e.Service, e.Description, e.Price, arr);
-              return null;
-            })}
+  //all components with capital
+  function ShowSubs() {
+    //hz why u need React.Children.toArray, but mb it's needed
+    // length check should be before component is rendered
+    return React.Children.toArray(
+      list[0].map((e) => (
+        <div className="list_btn">
+          <div className="list_btn_box" hidden="hidden">
+            <Button
+              variant="danger"
+              onClick={() => handleDelete(e.ID)}
+              className="activeButtons"
+            >
+              Delete
+            </Button>{" "}
+            <Link to={`/update/${e.ID}`} className="activeButtons">
+              <Button variant="warning" className="btn btn-warning">
+                Update
+              </Button>
+            </Link>
           </div>
-        ))
-      );
-    }
+          {list[1].map((arr) => {
+            if (arr.Name === e.Service)
+              return notEmpty(e.Service, e.Description, e.Price, arr);
+            return null;
+          })}
+        </div>
+      ))
+    );
   }
 
   return (
@@ -99,7 +103,11 @@ export default function Library() {
         </button>
       </Link>
       {/* {list.Author && } */}
-      {showSubs()}
+      {
+        //length check before rendering component
+        //DO NOT render component as the function(), need to use jsx elements: <ShowSubs/> instead of showSubs()
+        list.length ? <ShowSubs/> : null
+      }
     </div>
   );
 }
