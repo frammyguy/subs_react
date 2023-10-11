@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
 import "./header.sass";
 
 //better to wrap this into one component, because <Link><button></button></Link> structure is used every time, and
@@ -23,7 +24,7 @@ export default function Header() {
         />
         <div className="header_btn">
           <WrappedLink
-              url='/library'
+              url='/'
               buttonClass='header_btn_select'
               buttonTitle='Browse'
           />
@@ -40,6 +41,12 @@ export default function Header() {
         </div>
       </div>
       <div className="logins">
+        <Form.Select size="sm">
+          <option disabled selected value> </option>
+          <option>Latvia</option>
+          <option>Estonia</option>
+          <option>Lithuania</option>
+        </Form.Select>
         <WrappedLink
             url='/login'
             buttonClass='header_btn_select'

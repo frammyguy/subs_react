@@ -44,17 +44,17 @@ function ShowSubs({list, handleDelete, blurElement}) {
                 </Button>
               </Link>
             </div>
-            {list[1].map((arr) => {
-              if (arr.Name === e.Service)
-                  //kakoj nahuj funkcija piwi JSX
-                return  <NotEmpty
-                          service={e.Service}
-                          description={e.Description}
-                          price={e.Price} arr={arr}
-                          blurElement={blurElement}
-                        />
-              return null;
-            })}
+            {React.Children.toArray(
+              list[1].map((arr) => {
+                if (arr.Name === e.Service)
+                  return  <NotEmpty
+                            service={e.Service}
+                            description={e.Description}
+                            price={e.Price} arr={arr}
+                            blurElement={blurElement}
+                          />
+                return null;
+            }))}
           </div>
       ))
   );
@@ -80,7 +80,6 @@ export default function Library() {
   function blurElement(props) {
     props = props.currentTarget;
     const hidden = props.parentElement.children[0].hidden === "hidden";
-    //za var otrezhu pisku, uzaj const kak mozhno chawe
     let elems = Array.from(document.getElementsByClassName("list_sub"));
     elems.forEach((element) => {
       element.id = "";
@@ -109,13 +108,12 @@ export default function Library() {
           Add a new field
         </button>
       </Link>
-      {/* {list.Author && } */}
       {
-        //length check before rendering component
-        //DO NOT render component as the function(), need to use jsx elements: <ShowSubs/> instead of showSubs()
-        list.length ? <ShowSubs list={list}
-                                handleDelete={handleDelete}
-                                blurElement={blurElement}/> : null
+        list.length ? <ShowSubs
+                        list={list}
+                        handleDelete={handleDelete}
+                        blurElement={blurElement}
+                      /> : null
       }
     </div>
   );

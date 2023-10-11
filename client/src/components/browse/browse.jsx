@@ -1,12 +1,11 @@
 import React from "react";
+import {useEffect} from "react";
 import axios from "axios";
 import "./browse.sass";
-import {useEffect} from "react";
 
 export default function Browse() {
   const [list, setList] = React.useState([]);
 
-  //better not to declare function in useEffect
   const fetchAllSubs = async () => {
     try {
       const res = await axios.get("http://localhost:8800/");
@@ -25,8 +24,7 @@ export default function Browse() {
       <h1>Join our community!</h1>
       <div className="browse_list">
         {
-          //should work without React.Children.toArray()
-          // list.length > 0 - if yes, then render, no - return placeholder
+          React.Children.toArray(
           list.length ? list.map((list) => (
             <button id="" className="browse_btn">
               <div className="browse_img">
@@ -40,8 +38,8 @@ export default function Browse() {
                 {list.Our}€
               </div>
             </button>
-            )
-          ):<div> sorry - there is no list items...</div>
+          )):<div> sorry - there is no list items...</div>
+          )
         }
       </div>
     </div>
