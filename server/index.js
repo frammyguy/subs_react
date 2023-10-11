@@ -4,6 +4,16 @@ import cors from "cors";
 
 const app = express();
 
+//never store db passwords in github
+// they are usually stored in .env(which is in .gitignore) file and received using this api:
+//https://nodejs.dev/en/learn/how-to-read-environment-variables-from-nodejs/
+
+//to make app more scalable use mvc or another pattern:
+//https://www.geeksforgeeks.org/mvc-design-pattern/
+//But overall need to split logic to controller and action
+// to be able to import one fucntion from another file and execute in inside function
+// app.get('/', (req, res)=>{ controllerAction(req, res) });
+
 const db = mysql.createConnection({
     host: 'mysql.apexhosting.gdn',
     user: 'apexMC1473088',
