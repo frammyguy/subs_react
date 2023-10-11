@@ -18,7 +18,7 @@ export default function Browse() {
 
   useEffect(() => {
     fetchAllSubs();
-  }, [fetchAllSubs]);
+  }, []);
 
   return (
     <div className="browse">

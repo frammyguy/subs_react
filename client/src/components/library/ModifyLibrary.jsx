@@ -39,7 +39,7 @@ export default function ModifyLibrary({formAction}) {
             <input type="text" placeholder="service" onChange={handleChange} name="service" />
             <input type="text" placeholder="description" onChange={handleChange} name="desc" id="desc" />
             <input type="number" placeholder="price" onChange={handleChange} step="0.01" name="price" id="price" />
-            /* first letter to upper case */
+            {/* first letter to upper case */}
             <button onClick={handleClick}>{formAction.charAt(0).toUpperCase() + formAction.slice(1)}</button>
         </div>
     )
