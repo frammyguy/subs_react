@@ -1,0 +1,58 @@
+.browse
+    display: flex
+    flex-direction: column
+    align-items: center
+    margin: 20px
+    &_list
+        display: flex
+        flex-direction: row
+        margin-top: 20px
+    &_btn
+        min-height: 15vh
+        min-width: 15vw
+        margin: 20px
+        padding: 20px
+        background-color: #ffffff4d
+        border-radius: 4px
+        display: flex
+        flex-direction: column
+        transition: all .1s ease
+        &:hover
+            cursor: pointer
+            transform: scale(1.1)
+            transform: translateX(-2px)
+            transform: translateY(-2px)
+            box-shadow: 5px 10px 7px #00000079
+        &:active
+            background-color: #ffffff71
+            transform: translateY(1px)
+    &_img
+        width: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        img
+            max-height: 10vh
+    &_name
+        font-size: 1.8vw
+        width: 100%
+        text-align: center
+    &_genre
+        margin-top: -12px
+        margin-bottom: 12px
+        font-size: 0.8vw
+        width: 100%
+        text-align: center
+        color: #00000093
+    &_desc
+        width: 100%
+        text-align: center
+    &_price
+        font-size: 1.5vw
+        font-weight: 700
+        width: 100%
+        text-align: right
+        &_off
+            font-size: 1vw
+            font-weight: normal
+        
