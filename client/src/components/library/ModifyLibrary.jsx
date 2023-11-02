@@ -19,10 +19,10 @@ export default function ModifyLibrary({formAction}) {
     const handleClick = async e => {
         e.preventDefault();
         try {
-            list.author = "frammy";
-            if(formAction === 'update') await axios.put("http://localhost:8800/library/"+location, list);
-            if(formAction === 'add') await axios.put("http://localhost:8800/library/", list);
-            navigate('/');
+            list.author = "frammy"; // auth
+            if(formAction === 'update') await axios.put("http://localhost:8800/update/"+location, list);
+            if(formAction === 'add') await axios.put("http://localhost:8800/add/", list);
+            navigate('/library');
         } catch (err) {
             console.log(err);
         }
@@ -30,7 +30,7 @@ export default function ModifyLibrary({formAction}) {
 
     return (
         <div className="form">
-            <h1>Update a service</h1>
+            <h1>{formAction.charAt(0).toUpperCase() + formAction.slice(1)} a service</h1>
             <input type="text" placeholder="service" onChange={handleChange} name="service" />
             <input type="text" placeholder="description" onChange={handleChange} name="desc" id="desc" />
             <input type="number" placeholder="price" onChange={handleChange} step="0.01" name="price" id="price" />
