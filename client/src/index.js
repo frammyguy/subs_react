@@ -8,7 +8,7 @@ import ModifyLibrary from './components/library/ModifyLibrary';
 import Login from './components/login/login';
 import Register from './components/login/register';
 import About from './components/about/about';
-
+import User from './components/login/user.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.sass';
 
@@ -23,7 +23,7 @@ root.render(
         <Route path="/add" element={user ? <ModifyLibrary formAction='add' /> : <Navigate to="/login" />} />
         <Route path="/update/:id" element={user ? <ModifyLibrary formAction='update' /> : <Navigate to="/login" />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
         <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
