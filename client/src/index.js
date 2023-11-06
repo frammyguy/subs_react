@@ -12,6 +12,8 @@ import User from './components/login/user.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.sass';
 
+const user = new User('','','',false);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
