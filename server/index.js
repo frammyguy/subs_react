@@ -1,9 +1,7 @@
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
-import cookieSession from "cookie-session";
 import 'dotenv/config';
-import passport from "passport";
 
 const app = express();
 
@@ -23,13 +21,6 @@ const db = mysql.createConnection({
 
 app.use(express.json());
 app.use(cors());
-app.use(cookieSession(
-    {
-        name: "session",
-        keys: ["flowtrack"],
-        maxAge: 24 * 60 * 60 * 100
-    }
-));
 
 app.post('/add', (req, res) => {
     const q = "INSERT INTO Flowtrack (`Author`, `Service`, `Description`, `Price`) VALUES (?)"
@@ -40,14 +31,6 @@ app.post('/add', (req, res) => {
         req.body.price,
     ];
     db.query(q, [values], (err, data) => {
-        if (err) return console.log(err);
-        return res.json(data);
-    })
-})
-
-app.get('/', (req, res) => {
-    const q = "SELECT * FROM Flowtrack_services";
-    db.query(q, (err, data) => {
         if (err) return console.log(err);
         return res.json(data);
     })
@@ -117,6 +100,31 @@ app.put('/update/:id', (req, res) => {
         })
     }
     return res.json('success');
-})
+});
+
+app.post('/login', (req, res) => {
+    const q = "SELECT password FROM Flowtrack_users Where username=? OR email=?"
+    const values = [
+        req.body.username,
+        req.body.email
+    ];
+    db.query(q, [values], (err, data) => {
+        if (err) return console.log(err);
+        return res.json(data);
+    })
+});
+
+app.post('/register', (req, res) => {
+    const q = "INSERT INTO Flowtrack_users (`username`, `password`, `email`) VALUES (?)"
+    const values = [
+        req.body.username,
+        req.body.password,
+        req.body.email,
+    ];
+    db.query(q, [values], (err, data) => {
+        if (err) return console.log(err);
+        return res.json(data);
+    })
+});
 
 app.listen(8800, () => { });

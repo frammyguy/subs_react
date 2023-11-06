@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 import "./login.sass";
 
 export default function Login() {
+  
+  const [list, setList] = useState({
+    username: '',
+    password: '',
+    email: ''
+})
+
+const navigate = useNavigate();
+
+const handleChange = (e) => {
+    setList((prev) => ({...prev, [e.target.name]: e.target.value}));
+}
+const handleClick = async e => {
+    e.preventDefault();
+    try {
+        await axios.put("http://localhost:8800/login/", list);
+        navigate('/');
+    } catch (err) {
+        console.log(err);
+    }
+}
+
   return (
     <div className="login">
       <Form>

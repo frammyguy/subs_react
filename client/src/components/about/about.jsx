@@ -1,4 +1,6 @@
 import React from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import "./about.sass";
 
 export default function About() {
@@ -15,10 +17,27 @@ export default function About() {
             using <i>premium</i> features and also not being broke because of
             prices, that companies set nowadays.
           </div>
+
+          <Form className="about_form">
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Text className="text-muted">
+                We'll contact you on your issue
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Control as="textarea" rows={3} placeholder="Write feedback here" />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Send
+            </Button>
+          </Form>
         </div>
         <div className="about_img">
           <img
-            src="https://cdn.discordapp.com/attachments/546779000928731174/1164944632539512862/photo_2023-10-20_18-09-16.jpg?ex=65450e3c&is=6532993c&hm=395011cee9c808fa55574fa76bcdd331f5416d3188cdaf89479fe26e01e81d19&"
+            src="https://cdn.discordapp.com/attachments/546779000928731174/1169592220689645609/duckie.jpg?ex=6555f6a3&is=654381a3&hm=03b25c8f238d87bf05b83d7de75b327c9e1c5b0e62e8340f3c78eab7da0df104&"
             alt="a little duckie"
           />
           <div className="about_img_desc">`Our worker of a month`</div>
@@ -50,9 +69,7 @@ export default function About() {
             alt="edan"
           />
           <div className="about_worker_name">Edan</div>
-          <div className="about_worker_desc">
-            Truck driver, hitman
-          </div>
+          <div className="about_worker_desc">Truck driver, hitman</div>
         </div>
         <div className="about_worker">
           <img
