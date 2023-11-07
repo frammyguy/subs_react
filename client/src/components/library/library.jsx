@@ -27,22 +27,24 @@ function ShowSubs({ list, handleDelete, blurElement }) {
     list[0].map((e) => (
       <div className="list_btn">
         <div className="list_btn_box" hidden="hidden">
+          <Link to={`/update/${e.ID}`} className="activeButtons">
+            <Button variant="warning" className="btn btn-warning">
+              Update
+            </Button>
+          </Link>{" "}
           <Button
             variant="danger"
             onClick={() => handleDelete(e.ID)}
             className="activeButtons"
           >
             Delete
-          </Button>{" "}
-          <Link to={`/update/${e.ID}`} className="activeButtons">
-            <Button variant="warning" className="btn btn-warning">
-              Update
-            </Button>
-          </Link>
+          </Button>
         </div>
         {React.Children.toArray(
           list[1].map((arr) => {
-            if (arr.Name === e.Service)
+            if (arr.Name === e.Service) {
+              // need to make that element which matched deletes,
+              // so at the end we've got non marked and sort them by ourselves
               return (
                 <NotEmpty
                   service={e.Service}
@@ -52,6 +54,7 @@ function ShowSubs({ list, handleDelete, blurElement }) {
                   blurElement={blurElement}
                 />
               );
+            } else console.log(arr, e);
             return null;
           })
         )}
@@ -61,10 +64,14 @@ function ShowSubs({ list, handleDelete, blurElement }) {
 }
 
 export default function Library() {
+  const [user, setUser] = React.useState({
+    token: localStorage.getItem("FlowtrackToken"),
+  });
+
   const [list, setList] = React.useState([]);
   const fetchAllSubs = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/library");
+      const res = await axios.post("http://localhost:8800/library", user);
       setList(res.data);
     } catch (err) {
       console.log(err);
@@ -92,7 +99,7 @@ export default function Library() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:8800/library/" + id);
+      await axios.delete("http://localhost:8800/delete/" + id);
       window.location.reload();
     } catch (err) {
       console.log(err);

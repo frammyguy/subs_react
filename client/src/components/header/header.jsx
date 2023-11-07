@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import "./header.sass";
@@ -12,6 +13,23 @@ const WrappedLink = ({ url, linkClass = "", buttonClass, buttonTitle }) => {
 };
 
 export default function Header() {
+  const [user, setUser] = React.useState({
+    token: localStorage.getItem('FlowtrackToken')
+  });
+  const [list, setList] = React.useState([]);
+
+  const fetchtheName = async () => {
+    try {
+      const res = await axios.post("http://localhost:8800/header", user);
+      setList(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchtheName();
+  }, []);
   return (
     <header className="split">
       <div className="header">
@@ -28,7 +46,7 @@ export default function Header() {
             buttonTitle="Browse"
           />
           <WrappedLink
-            url="/library"
+            url={list.token !== 'no token' ? "/library" : "/login"}
             buttonClass="header_btn_select"
             buttonTitle="My subs"
           />
@@ -40,35 +58,36 @@ export default function Header() {
         </div>
       </div>
       <div className="logins">
-        <Form.Select size="sm">
-          <option disabled selected value>
+        <Form.Select defaultValue={'DEFAULT'} size="sm">
+          <option value="DEFAULT" disabled>
             {" "}
           </option>
           <option>Latvia</option>
           <option>Estonia</option>
           <option>Lithuania</option>
         </Form.Select>
-        {/* {user ? ( 
+        {list.token !== 'no token' ? ( 
           <div>
-            <Link to="/login">
+            <Link to="/library">
+              {list.length ? 
               <button className="header_btn_select">
-                <img className="header_avatar" src="https://lh3.googleusercontent.com/a/ACg8ocKmhnCqtKTCOWELBYZNBVau1rmw7L5RRpEOk0gvP70J82E=s288-c-no" alt="frammy avatar" />
-                frammy
-              </button>
+                {list[0].photo ? <img className="header_avatar" src={list[0].photo} alt="." /> : null}
+                {list[0].username}
+              </button> : null}
             </Link>
             <WrappedLink
-              url="/login"
+              url="/logout"
               buttonClass="header_btn_select"
               buttonTitle="Log out"
             />
           </div>
-         ) : ( */}
+         ) : (
           <WrappedLink
             url="/login"
             buttonClass="header_btn_select"
             buttonTitle="Sign in"
           />
-        {/* )} */}
+        )}
       </div>
     </header>
   );

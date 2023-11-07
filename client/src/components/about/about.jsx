@@ -40,7 +40,7 @@ export default function About() {
             src="https://cdn.discordapp.com/attachments/546779000928731174/1169592220689645609/duckie.jpg?ex=6555f6a3&is=654381a3&hm=03b25c8f238d87bf05b83d7de75b327c9e1c5b0e62e8340f3c78eab7da0df104&"
             alt="a little duckie"
           />
-          <div className="about_img_desc">`Our worker of a month`</div>
+          <div className="about_img_desc">`Employee of the month`</div>
         </div>
       </div>
       <h1 className="about_h1">Our workers</h1>

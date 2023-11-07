@@ -19,10 +19,11 @@ export default function ModifyLibrary({formAction}) {
     const handleClick = async e => {
         e.preventDefault();
         try {
-            list.author = "frammy"; // auth
-            if(formAction === 'update') await axios.put("http://localhost:8800/update/"+location, list);
-            if(formAction === 'add') await axios.put("http://localhost:8800/add/", list);
+            list.author = localStorage.getItem('FlowtrackToken');
+            if(formAction === 'update') await axios.put("http://localhost:8800/"+formAction+"/"+location, list);
+            if(formAction === 'add') await axios.post("http://localhost:8800/"+formAction+"/", list);
             navigate('/library');
+            window.location.reload();
         } catch (err) {
             console.log(err);
         }
