@@ -8,7 +8,7 @@ export default function ModifyLibrary({ formAction }) {
   const navigate = useNavigate();
   const location = useLocation().pathname.split("/")[2];
 
-  const [data, setData] = React.useState([]);
+  const [setData] = React.useState([]);
 
   const fetchUpdate = async () => {
     try {

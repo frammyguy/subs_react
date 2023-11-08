@@ -4,11 +4,19 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import "./library.sass";
 
+const pepe = [
+  'https://www.candlepowerforums.com/media/pepe-hype-png.1887/full',
+  'https://www.candlepowerforums.com/media/pepehands-png.1888/full',
+  'https://media.tenor.com/s0x8wn5QX7wAAAAj/pepe.gif',
+  'https://www.candlepowerforums.com/media/pepelaugh-png.1889/full'
+]
+
 function NotEmpty({ service, description, price, logo, arr, blurElement }) {
   return (
     <button id="" onClick={blurElement} className="list_sub">
       <div className="list_excPrice">
-        <img src={logo ? logo : arr.Photo} alt="logo" />
+      {logo ? <img src={logo} alt="logo" /> : ( arr.Photo ? <img src={arr.Photo} alt="logo" /> : <img src={pepe[Math.floor(Math.random()*pepe.length)]} alt="logo" /> )}
+        
         <div className="list_sub_title">
           <div className="list_sub_name">{service}</div>
           <div className="list_sub_genre">{arr.Genre}</div>
@@ -48,7 +56,7 @@ function ShowSubs({ list, handleDelete, blurElement }) {
                   service={e.Service}
                   description={e.Description !== '' ? e.Description : arr.Description}
                   price={e.Price !== 0 ? e.Price : arr.Our}
-                  logo={e.Custom_logo}
+                  logo={e.Custom_logo === '' ? e.Custom_logo : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fthenounproject.com%2Ficon%2Fdot-658609%2F&psig=AOvVaw3bmZFlMqvNGDu7R3WuzTTI&ust=1699573039094000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPiYsovJtYIDFQAAAAAdAAAAABAE'}
                   arr={arr}
                   blurElement={blurElement}
                 />
