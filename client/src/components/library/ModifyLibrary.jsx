@@ -67,38 +67,23 @@ export default function ModifyLibrary({ formAction }) {
           </Button>
         )}
       <div className="form_butt">
-      {formAction.charAt(0).toUpperCase()+formAction.slice(1) === "Add" ? (
-        <select
-          onChange={handleChange}
-          name="service"
-          id="serviceName"
-        >
-          <option value="DEFAULT" hidden></option>
-        {data.map(e => {
-          return React.Children.toArray(
-            <option value={e.Name}>{e.Name}</option>
-          )})}
-          
-        </select>
-      ) : (
         <input
         type="text"
-        placeholder={data[0] !== undefined ? (data[0].Service !== '' ? '\"'+data[0].Service+'\"' : "Name") : "Name"}
+        placeholder="Name of service"
         onChange={handleChange}
         name="service"
         id="serviceName"
       />
-      )}
         <input
           type="text"
-          placeholder={data[0] !== undefined ? (data[0].Description !== '' ? '\"'+data[0].Description+'\"' : "Description") : "Description"}
+          placeholder="Description"
           onChange={handleChange}
           name="desc"
           id="desc"
         />
         <input
           type="number"
-          placeholder={data[0] !== undefined ? (data[0].Price !== 0 ? '\"'+data[0].Price+'\"' : "Price") : "Price"}
+          placeholder="Price"
           onChange={handleChange}
           step="0.01"
           name="price"
