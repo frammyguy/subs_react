@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import "./library.sass";
 
-function NotEmpty({ service, description, price, arr, blurElement }) {
+function NotEmpty({ service, description, price, logo, arr, blurElement }) {
   return (
     <button id="" onClick={blurElement} className="list_sub">
       <div className="list_excPrice">
-        <img src={arr.Photo} alt="logo" />
+        <img src={logo ? logo : arr.Photo} alt="logo" />
         <div className="list_sub_title">
           <div className="list_sub_name">{service}</div>
           <div className="list_sub_genre">{arr.Genre}</div>
@@ -43,18 +43,17 @@ function ShowSubs({ list, handleDelete, blurElement }) {
         {React.Children.toArray(
           list[1].map((arr) => {
             if (arr.Name === e.Service) {
-              // need to make that element which matched deletes,
-              // so at the end we've got non marked and sort them by ourselves
               return (
                 <NotEmpty
                   service={e.Service}
-                  description={e.Description}
-                  price={e.Price}
+                  description={e.Description !== '' ? e.Description : arr.Description}
+                  price={e.Price !== 0 ? e.Price : arr.Our}
+                  logo={e.Custom_logo}
                   arr={arr}
                   blurElement={blurElement}
                 />
               );
-            } else console.log(arr, e);
+            }
             return null;
           })
         )}
@@ -64,7 +63,7 @@ function ShowSubs({ list, handleDelete, blurElement }) {
 }
 
 export default function Library() {
-  const [user, setUser] = React.useState({
+  const [user] = React.useState({
     token: localStorage.getItem("FlowtrackToken"),
   });
 

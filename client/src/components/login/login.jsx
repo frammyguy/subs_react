@@ -1,5 +1,5 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
@@ -47,6 +47,9 @@ const handleClick = async e => {
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control onChange={handleChange} name="password" type="password" placeholder="Password" />
+          <Form.Text className="text-muted">
+            <Link to="/register" >Create account</Link>
+          </Form.Text>
         </Form.Group>
         <Button onClick={handleClick} variant="primary" type="submit">
           Login

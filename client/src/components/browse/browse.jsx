@@ -1,10 +1,17 @@
 import React from "react";
 import {useEffect} from "react";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 import "./browse.sass";
 
 export default function Browse() {
+  const navigate = useNavigate();
   const [list, setList] = React.useState([]);
+  const [send] = React.useState({
+    author: '',
+    sub: ''
+  });
 
   const fetchAllSubs = async () => {
     try {
@@ -18,6 +25,18 @@ export default function Browse() {
   useEffect(() => {
     fetchAllSubs();
   }, []);
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      send.author = localStorage.getItem("FlowtrackToken");
+      send.sub = e.target.name
+      await axios.post("http://localhost:8800/addsub", send);
+      navigate("/library");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="browse">
@@ -37,6 +56,9 @@ export default function Browse() {
                 <s className="browse_price_off">{list.Official}€ </s>
                 {list.Our}€
               </div>
+              <Button name={list.Name} variant="light" onClick={handleClick}>
+                Subscribe
+              </Button>
             </button>
           )):<div> sorry - there is no list items...</div>
           )

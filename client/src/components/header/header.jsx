@@ -59,7 +59,7 @@ export default function Header() {
       </div>
       <div className="logins">
         <Form.Select defaultValue={'DEFAULT'} size="sm">
-          <option value="DEFAULT" disabled>
+          <option value="DEFAULT" hidden>
             {" "}
           </option>
           <option>Latvia</option>

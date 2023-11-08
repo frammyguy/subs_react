@@ -38,9 +38,9 @@ app.post('/add', (req, res) => {
     const q = "INSERT INTO Flowtrack (`Author`, `Service`, `Description`, `Price`) VALUES (?)"
     const values = [
         decoded,
-        req.body.service,
-        req.body.desc,
-        req.body.price,
+        req.body.service.trim(),
+        req.body.desc.trim(),
+        req.body.price.trim()
     ];
     db.query(q, [values], (err, data) => {
         if (err) return console.log(err);
@@ -77,6 +77,7 @@ app.post('/header', (req, res) => {
     });
 });
 
+
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
     const q = "DELETE FROM Flowtrack Where ID = ?"
@@ -86,25 +87,37 @@ app.delete('/delete/:id', (req, res) => {
     })
 })
 
+app.post('/updateget/:id', (req, res) => {
+    let id = '';
+    if (req.params.id.length !== 9)
+        id = req.params.id
+    else {
+        const q = "SELECT Name FROM Flowtrack_services";
+        db.query(q, (err, data) => {
+            if (err) return console.log(err);
+            return res.json(data);
+        })
+    }
+    if (id != '') {
+        const q = "SELECT * FROM Flowtrack Where `ID`=?"
+        const value = [id]
+        db.query(q, [value], (err, data) => {
+            if (err) return console.log(err);
+            return res.json(data);
+        })
+    }
+});
+
 app.put('/update/:id', (req, res) => {
     let id = '';
     if (req.params.id != '')
         id = req.params.id
     else
         return res.json('error');
-    if (req.body.author != '') {
-        const q = "UPDATE Flowtrack SET Author=? Where `ID`=?"
-        const value = [
-            req.body.author
-        ]
-        db.query(q, [...value, id], (err, data) => {
-            if (err) return console.log(err);
-        })
-    }
     if (req.body.service != '') {
         const q = "UPDATE Flowtrack SET Service=? Where `ID`=?"
         const value = [
-            req.body.service
+            req.body.service.trim()
         ]
         db.query(q, [...value, id], (err, data) => {
             if (err) return console.log(err);
@@ -113,7 +126,7 @@ app.put('/update/:id', (req, res) => {
     if (req.body.desc != '') {
         const q = "UPDATE Flowtrack SET Description=? Where `ID`=?"
         const value = [
-            req.body.desc
+            req.body.desc.trim()
         ]
         db.query(q, [...value, id], (err, data) => {
             if (err) return console.log(err);
@@ -122,7 +135,7 @@ app.put('/update/:id', (req, res) => {
     if (req.body.price != '') {
         const q = "UPDATE Flowtrack SET Price=? Where `ID`=?"
         const value = [
-            req.body.price
+            req.body.price.trim()
         ]
         db.query(q, [...value, id], (err, data) => {
             if (err) return console.log(err);
@@ -149,17 +162,32 @@ app.post('/login', (req, res) => {
     })
 });
 
-// app.post('/register', (req, res) => {
-//     const q = "INSERT INTO Flowtrack_users (`username`, `password`, `email`) VALUES (?)"
-//     const values = [
-//         req.body.username,
-//         req.body.password,
-//         req.body.email,
-//     ];
-//     db.query(q, [values], (err, data) => {
-//         if (err) return console.log(err);
-//         return res.json(data);
-//     })
-// });
+app.post('/register', (req, res) => {
+    const q = "INSERT INTO Flowtrack_users (`username`, `password`, `photo`) VALUES (?)"
+    const values = [
+        req.body.username,
+        req.body.password,
+        req.body.photo
+    ];
+    db.query(q, [values], (err, data) => {
+        if (err) return console.log(err);
+        return res.json(data);
+    })
+});
+
+app.post('/addsub', (req, res) => {
+    const token = req.body.author;
+    if (!token) return res.json({token:'no token'})
+    const decoded = jwt.verify(token, 'SecretKey').username;
+    const q = "INSERT INTO Flowtrack (`Author`, `Service`) VALUES (?)"
+    const values = [
+        decoded,
+        req.body.sub
+    ];
+    db.query(q, [values], (err, data) => {
+        if (err) return console.log(err);
+        return res.json(data);
+    })
+});
 
 app.listen(8800, () => { });
