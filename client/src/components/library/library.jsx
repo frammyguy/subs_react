@@ -107,11 +107,6 @@ export default function Library() {
 
   return (
     <div className="list">
-      <Link to="/add">
-        <button id="" className="list_sub list_add">
-          Add a new field
-        </button>
-      </Link>
       {list.length ? (
         <ShowSubs
           list={list}
@@ -119,6 +114,11 @@ export default function Library() {
           blurElement={blurElement}
         />
       ) : null}
+      <Link to="/add">
+        <button id="" className="list_sub list_add">
+          Add a new field
+        </button>
+      </Link>
     </div>
   );
 }
