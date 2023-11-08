@@ -145,6 +145,7 @@ app.put('/update/:id', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
+    if (req.body.username.trim() == '') return console.log(err);
     const q = "SELECT password FROM Flowtrack_users Where username=?"
     const values = [
         req.body.username
@@ -163,6 +164,7 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
+    if (req.body.username.trim() == '') return console.log(err);
     const q = "INSERT INTO Flowtrack_users (`username`, `password`, `photo`) VALUES (?)"
     const values = [
         req.body.username,

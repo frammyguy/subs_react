@@ -18,6 +18,11 @@ export default function Register() {
   };
   const handleClick = async (e) => {
     e.preventDefault();
+    if (list.username === '') document.getElementById('warnNickname').removeAttribute('hidden')
+    else document.getElementById('warnNickname').setAttribute('hidden', 'hidden')
+    if (list.password === '') document.getElementById('warnPassword').removeAttribute('hidden')
+    else document.getElementById('warnPassword').setAttribute('hidden', 'hidden')
+    if (list.username === '' || list.password === '') return null;
     try {
       list.author = localStorage.getItem("FlowtrackToken");
       await axios.post("http://localhost:8800/register", list);
@@ -38,6 +43,9 @@ export default function Register() {
             type="text"
             placeholder="Enter nickname"
           />
+          <Form.Text id="warnNickname" className="warn" hidden>
+            Enter the nickname!
+          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -48,9 +56,12 @@ export default function Register() {
             type="password"
             placeholder="Password"
           />
+          <Form.Text id="warnPassword" className="warn" hidden>
+            Enter the password!
+          </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="formBasicPhoto">
           <Form.Label>Photo</Form.Label>
           <Form.Control
             name="photo"
