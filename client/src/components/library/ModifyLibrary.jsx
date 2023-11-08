@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ModifyLibrary({ formAction }) {
@@ -36,6 +37,9 @@ export default function ModifyLibrary({ formAction }) {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      if (list.service === '') document.getElementById('warnService').removeAttribute('hidden')
+      else document.getElementById('warnService').setAttribute('hidden', 'hidden');
+      if (list.service === '') return null;
       list.author = localStorage.getItem("FlowtrackToken");
       if (formAction === "update")
         await axios.put(
@@ -101,6 +105,9 @@ export default function ModifyLibrary({ formAction }) {
           id="price"
         />
       </div>
+        <Form.Text id="warnService" className="warn" hidden>
+          Enter the name of service!
+        </Form.Text>
       <Button variant="light" onClick={handleClick}>
         {formAction.charAt(0).toUpperCase() + formAction.slice(1)}
       </Button>

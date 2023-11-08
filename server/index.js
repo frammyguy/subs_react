@@ -1,5 +1,5 @@
 import express from "express";
-import mysql from "mysql";
+import {createConnection} from "mysql";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import 'dotenv/config';
@@ -12,7 +12,7 @@ const app = express();
 // to be able to import one fucntion from another file and execute in inside function
 // app.get('/', (req, res)=>{ controllerAction(req, res) });
 
-const db = mysql.createConnection({
+const db = createConnection({
     host: process.env.host,
     user: process.env.user,
     password: process.env.password,
