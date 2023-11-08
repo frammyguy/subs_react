@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    const q = "SELECT * FROM Flowtrack_services";
+    const q = "SELECT * FROM Flowtrack_services WHERE Photo <> ''";
     db.query(q, (err, data) => {
         if (err) return console.log(err);
         return res.json(data);
@@ -35,6 +35,10 @@ app.post('/add', (req, res) => {
     const author = req.body.author;
     if (!author) return res.json({token:'no token'})
     const decoded = jwt.verify(author, 'SecretKey').username;
+    const insert_service = "INSERT INTO Flowtrack_services (`Name`) VALUES (?)"
+    const insert_name = [
+        req.body.service.trim()
+    ];
     const q = "INSERT INTO Flowtrack (`Author`, `Service`, `Description`, `Price`) VALUES (?)"
     const values = [
         decoded,
@@ -42,6 +46,9 @@ app.post('/add', (req, res) => {
         req.body.desc.trim(),
         req.body.price.trim()
     ];
+    db.query(insert_service, [insert_name], (err, _) => {
+        if (err) return console.log(err);
+    })
     db.query(q, [values], (err, data) => {
         if (err) return console.log(err);
         return res.json(data);
