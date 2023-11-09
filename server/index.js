@@ -39,12 +39,13 @@ app.post('/add', (req, res) => {
     const insert_name = [
         req.body.service.trim()
     ];
-    const q = "INSERT INTO Flowtrack (`Author`, `Service`, `Description`, `Price`) VALUES (?)"
+    const q = "INSERT INTO Flowtrack (`Author`, `Service`, `Description`, `Price`, `Date`) VALUES (?)"
     const values = [
         decoded,
         req.body.service.trim(),
         req.body.desc.trim(),
-        req.body.price.trim()
+        req.body.price.trim(),
+        req.body.date
     ];
     db.query(insert_service, [insert_name], (err, _) => {
         if (err) return console.log(err);
@@ -58,8 +59,6 @@ app.post('/add', (req, res) => {
 app.post('/library', (req, res) => {
     const token = req.body.token;
     const decoded = jwt.verify(token, 'SecretKey').username;
-
-    const info = '';
     const q = [
         "SELECT * FROM Flowtrack Where Author=?",
         "SELECT * FROM Flowtrack_services"

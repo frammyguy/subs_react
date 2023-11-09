@@ -8,7 +8,7 @@ export default function ModifyLibrary({ formAction }) {
   const navigate = useNavigate();
   const location = useLocation().pathname.split("/")[2];
 
-  const [setData] = React.useState([]);
+  const [data, setData] = React.useState([]);
 
   const fetchUpdate = async () => {
     try {
@@ -29,6 +29,7 @@ export default function ModifyLibrary({ formAction }) {
     service: "",
     desc: "",
     price: "",
+    date: ""
   });
 
   const handleChange = (e) => {
@@ -46,8 +47,11 @@ export default function ModifyLibrary({ formAction }) {
           "http://localhost:8800/" + formAction + "/" + location,
           list
         );
-      if (formAction === "add")
+      if (formAction === "add") {
+        const date = new Date().getTime()+2629743;
+        list.date = date;
         await axios.post("http://localhost:8800/" + formAction + "/", list);
+      }
       navigate("/library");
       window.location.reload();
     } catch (err) {
