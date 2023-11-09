@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 import "./about.sass";
 
 export default function About() {
+  const navigate = useNavigate();
+  const [list, setList] = useState({
+    email: "",
+    message: ""
+  });
+  const handleChange = (e) => {
+    setList((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      if (list.email === '' || list.message === '') return null;
+      await axios.post("http://localhost:8800/aboutsend",list);
+      navigate("/about");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       <h1 className="about_h1">Our servise</h1>
@@ -21,16 +43,16 @@ export default function About() {
           <Form className="about_form">
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control onChange={handleChange} name="email" type="email" placeholder="Enter email" />
               <Form.Text className="text-muted">
                 We'll contact you on your issue
               </Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control as="textarea" rows={3} placeholder="Write feedback here" />
+              <Form.Control onChange={handleChange} name="message" type="text" rows={3} placeholder="Write feedback here" />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button onClick={handleClick} variant="primary">
               Send
             </Button>
           </Form>

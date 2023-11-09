@@ -183,6 +183,20 @@ app.post('/register', (req, res) => {
     })
 });
 
+app.post('/aboutsend', (req, res) => {
+    if (req.body.email.trim() == '') return console.log(err);
+    if (req.body.message.trim() == '') return console.log(err);
+    const q = "INSERT INTO Flowtrack_email (`email`, `text`) VALUES (?)"
+    const values = [
+        req.body.email,
+        req.body.message
+    ];
+    db.query(q, [values], (err, data) => {
+        if (err) return console.log(err);
+        return res.json(data);
+    })
+});
+
 app.post('/addsub', (req, res) => {
     const token = req.body.author;
     if (!token) return res.json({token:'no token'})
